@@ -17506,6 +17506,7 @@ if st.session_state.get('upstox_access_token'):
         "🧿 NIRV Model",
         "🧠 OMEGA",
         "🌌 NOVA Architecture",
+        "🧬 CHIMERA-RX",
         "📈 Positions",
         "📄 Journal",
         "💵 Paper Trade",
@@ -17517,7 +17518,6 @@ if st.session_state.get('upstox_access_token'):
         "🔬 Backtest",
         "🔮 Predictive",
         "📤 Export",
-        "🧬 CHIMERA-RX",
     ])
 
     
@@ -22634,8 +22634,30 @@ if st.session_state.get('upstox_access_token'):
                                 import traceback
                                 st.code(traceback.format_exc())
 
-    # ============== TAB 10: POSITIONS ==============
+    # ============== TAB 10: CHIMERA-RX (ISOLATED SHADOW) ==============
     with main_tabs[10]:
+        if CHIMERA_RX_TAB_AVAILABLE and render_chimera_rx_tab is not None:
+            try:
+                render_chimera_rx_tab(st, st.session_state)
+            except Exception as _chimera_runtime_error:
+                st.markdown("### 🧬 CHIMERA-RX (Shadow Mode)")
+                st.error(f"CHIMERA-RX runtime error: {_chimera_runtime_error}")
+                st.caption("Fallback diagnostics are shown below to avoid blank tab output.")
+                st.json(
+                    {
+                        "available": True,
+                        "import_error": CHIMERA_RX_IMPORT_ERROR,
+                        "runtime_error": str(_chimera_runtime_error),
+                    }
+                )
+        else:
+            st.markdown("### 🧬 CHIMERA-RX (Shadow Mode)")
+            st.warning("CHIMERA-RX tab module is unavailable in this runtime.")
+            if CHIMERA_RX_IMPORT_ERROR:
+                st.caption(f"Import error: {CHIMERA_RX_IMPORT_ERROR}")
+
+    # ============== TAB 11: POSITIONS ==============
+    with main_tabs[11]:
         st.header("📈 Position Tracker")
         
         tracker = st.session_state['position_tracker']
@@ -22739,8 +22761,8 @@ if st.session_state.get('upstox_access_token'):
                 st.success(f"✅ Position added (ID: {pos_id})")
                 st.rerun()
     
-    # ============== TAB 9: JOURNAL ==============
-    with main_tabs[11]:
+    # ============== TAB 12: JOURNAL ==============
+    with main_tabs[12]:
         st.header("📄 Trade Journal")
         
         journal = st.session_state['trade_journal']
@@ -22852,8 +22874,8 @@ if st.session_state.get('upstox_access_token'):
                 })
                 st.success(f"✅ Trade logged (ID: {trade_id})")
     
-    # ============== TAB 10: PAPER TRADING ==============
-    with main_tabs[12]:
+    # ============== TAB 13: PAPER TRADING ==============
+    with main_tabs[13]:
         st.header("💵 Paper Trading")
         
         # Safely get paper trader with initialization fallback
@@ -22926,8 +22948,8 @@ if st.session_state.get('upstox_access_token'):
                 st.info("No open positions. Use the quick trade below or trade from the Analyzer tab.")
 
     
-    # ============== TAB 11: ALERTS ==============
-    with main_tabs[13]:
+    # ============== TAB 14: ALERTS ==============
+    with main_tabs[14]:
         st.header("🔔 Custom Alerts")
         
         alert_mgr = st.session_state['alert_manager']
@@ -22993,8 +23015,8 @@ if st.session_state.get('upstox_access_token'):
             else:
                 st.info("No triggered alerts.")
     
-    # ============== TAB 12: EVENTS ==============
-    with main_tabs[14]:
+    # ============== TAB 15: EVENTS ==============
+    with main_tabs[15]:
         st.header("📅 Market Events Calendar")
         
         upcoming = EventCalendar.get_upcoming_events(30)
@@ -23024,8 +23046,8 @@ if st.session_state.get('upstox_access_token'):
         if next_exp:
             st.info(f"📆 **Next F&O Expiry:** {next_exp} ({days_to_exp} days)")
     
-    # ============== TAB 13: IV ANALYSIS ==============
-    with main_tabs[15]:
+    # ============== TAB 16: IV ANALYSIS ==============
+    with main_tabs[16]:
         st.header("📉 Historical IV Analysis")
         
         iv_analyzer = st.session_state['iv_analyzer']
@@ -23079,8 +23101,8 @@ if st.session_state.get('upstox_access_token'):
         else:
             st.info("👈 Please select an option contract to analyze IV.")
 
-    # ============== TAB 14: AI ASSISTANT ==============
-    with main_tabs[16]:
+    # ============== TAB 17: AI ASSISTANT ==============
+    with main_tabs[17]:
         st.header("🤖 AI Trading Assistant (Gemini + Perplexity)")
 
         # ── Auto-connect: preload from config.env on first visit ───────
@@ -23605,8 +23627,8 @@ if st.session_state.get('upstox_access_token'):
             else:
                 st.info("No option data loaded. Load data from the Analyzer tab first.")
 
-    # ============== TAB 15: AI PICKS ==============
-    with main_tabs[17]:
+    # ============== TAB 18: AI PICKS ==============
+    with main_tabs[18]:
         st.header("🎯 AI-Powered Option Picks (Stocks + Index)")
         st.markdown("Get intelligent buy/sell recommendations for **stock and index options** based on events, macro factors, and technical analysis")
         
@@ -24976,8 +24998,8 @@ if st.session_state.get('upstox_access_token'):
             5. **Monitor API limits** - Stay within rate limits to avoid blocks
             """)
 
-    # ============== TAB 16: MODEL BACKTEST & VALIDATION ==============
-    with main_tabs[18]:
+    # ============== TAB 19: MODEL BACKTEST & VALIDATION ==============
+    with main_tabs[19]:
         st.header("🔬 Model Backtest & Validation")
 
         # ── Top-level sub-tabs: Expired Options vs Synthetic Backtest ──
@@ -25904,8 +25926,8 @@ if st.session_state.get('upstox_access_token'):
                     st.caption(" | ".join(_meta_parts))
 
 
-    # ============== TAB 17: PREDICTIVE INTELLIGENCE ==============
-    with main_tabs[19]:
+    # ============== TAB 20: PREDICTIVE INTELLIGENCE ==============
+    with main_tabs[20]:
         st.markdown("### 🔮 Predictive Intelligence — Multi-Factor Market Forecast")
         st.caption("Combines 10+ factors (technical, sentiment, options flow, VIX regime, seasonal patterns, "
                    "institutional flow, global correlations, regime detection, pattern matching, economic calendar) "
@@ -26155,8 +26177,8 @@ if st.session_state.get('upstox_access_token'):
                 )
                 st.plotly_chart(fig_tf, use_container_width=True)
 
-    # ============== TAB 18: EXPORT & REPORTS ==============
-    with main_tabs[20]:
+    # ============== TAB 21: EXPORT & REPORTS ==============
+    with main_tabs[21]:
         st.markdown("### 📤 Export & Reports")
         st.markdown("---")
         
@@ -26483,16 +26505,6 @@ if st.session_state.get('upstox_access_token'):
                             m_cols[1].metric("Win Rate", f"{metrics['win_rate']:.1f}%")
                             m_cols[2].metric("Total P&L", f"₹{metrics['total_pnl']:,.0f}")
                             m_cols[3].metric("Return", f"{metrics['total_return_pct']:+.1f}%")
-
-    # ============== TAB 21: CHIMERA-RX (ISOLATED SHADOW) ==============
-    with main_tabs[21]:
-        if CHIMERA_RX_TAB_AVAILABLE and render_chimera_rx_tab is not None:
-            render_chimera_rx_tab(st, st.session_state)
-        else:
-            st.markdown("### 🧬 CHIMERA-RX (Shadow Mode)")
-            st.warning("CHIMERA-RX tab module is unavailable in this runtime.")
-            if CHIMERA_RX_IMPORT_ERROR:
-                st.caption(f"Import error: {CHIMERA_RX_IMPORT_ERROR}")
 
 else:
     # Not connected
