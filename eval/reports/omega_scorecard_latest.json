@@ -1,0 +1,37 @@
+{
+  "total_score_100": 15.0,
+  "claim_eligible_95plus": false,
+  "directional_oos_samples": 303,
+  "minimum_samples_required": 300,
+  "components": {
+    "predictive_quality_35": {
+      "score": 0.0,
+      "global_accuracy_pct": 30.03,
+      "side_accuracy_min_pct": 17.04,
+      "regime_accuracy_min_pct": 27.56
+    },
+    "economic_quality_30": {
+      "score": 5.0,
+      "mean_sharpe": 0.0,
+      "mean_profit_factor": 0.0,
+      "mean_win_rate_pct": 0.0,
+      "mean_max_drawdown_pct": 0.0,
+      "mean_total_pnl": 0.0,
+      "mean_total_pnl_pct": 0.0
+    },
+    "calibration_quality_20": {
+      "score": 0.0,
+      "ece": null
+    },
+    "robustness_10": {
+      "score": 10.0,
+      "finite_ratio": 1.0,
+      "cases": 40
+    },
+    "regression_integrity_5": {
+      "score": 0.0,
+      "pytest_passed": false,
+      "golden_passed": false
+    }
+  }
+}
