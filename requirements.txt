@@ -28,3 +28,4 @@ twisted
 txaio
 zope.interface
 logzero
+feedparser
